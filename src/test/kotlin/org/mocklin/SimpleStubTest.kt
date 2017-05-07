@@ -22,7 +22,7 @@ class SimpleStubTest {
         val expectedResponse = "the-response"
         val stubbedSubject = stub<TestSubject>()
 
-        whenever{stubbedSubject.doAThing()}.thenReturn(expectedResponse)
+        whenever { stubbedSubject.doAThing() }.thenReturn(expectedResponse)
         assertThat(stubbedSubject.doAThing(), equalTo(expectedResponse))
     }
 
@@ -33,7 +33,7 @@ class SimpleStubTest {
         val stubbedSubject = stub<TestSubject>()
 
         val expectedArg = "expected-arg"
-        whenever{stubbedSubject.doAThingWithArg(expectedArg)}.thenReturn(expectedResponse)
+        whenever { stubbedSubject.doAThingWithArg(expectedArg) }.thenReturn(expectedResponse)
         assertThat(stubbedSubject.doAThingWithArg(expectedArg), equalTo(expectedResponse))
     }
 
@@ -44,14 +44,14 @@ class SimpleStubTest {
         val stubbedSubject = stub<TestSubject>()
 
         val expectedArg = "expected-arg"
-        whenever{stubbedSubject.doAThingWithArg(match(isA(String::class.java)))}.thenReturn(expectedResponse)
+        whenever { stubbedSubject.doAThingWithArg(match(isA(String::class.java))) }.thenReturn(expectedResponse)
         assertThat(stubbedSubject.doAThingWithArg(expectedArg), equalTo(expectedResponse))
     }
 
     @Test
     fun shouldNotReturnWhenArgsDoNotMatch() {
         val stubbedSubject = stub<TestSubject>()
-        whenever{stubbedSubject.doAThingWithArg("expected-arg")}.thenReturn("the-response")
+        whenever { stubbedSubject.doAThingWithArg("expected-arg") }.thenReturn("the-response")
 
         try {
             stubbedSubject.doAThingWithArg("mismatch-arg")
@@ -64,18 +64,18 @@ class SimpleStubTest {
     @Test(expected = UnexpectedVerificationException::class)
     fun shouldClearMatcherListBetweenStubs() {
         val stubbedSubject1 = stub<TestSubject>()
-        whenever{stubbedSubject1.doAThingWithArg(match(isA(String::class.java)))}.thenReturn("good")
+        whenever { stubbedSubject1.doAThingWithArg(match(isA(String::class.java))) }.thenReturn("good")
 
         val stubbedSubject2 = stub<TestSubject>()
-        whenever{stubbedSubject2.doAThingWithArg("expected-arg")}.thenReturn("bad")
+        whenever { stubbedSubject2.doAThingWithArg("expected-arg") }.thenReturn("bad")
         stubbedSubject2.doAThingWithArg("mismatch-arg")
     }
 
     @Test
     fun shouldAllowMultipleExpectations() {
         val stubbedSubject1 = stub<TestSubject>()
-        whenever{stubbedSubject1.doAThingWithArg(match(isA(String::class.java)))}.thenReturn("hamcrest-match-expected")
-        whenever{stubbedSubject1.doAThingWithArg("explicit-match")}.thenReturn("explicit-match-expected")
+        whenever { stubbedSubject1.doAThingWithArg(match(isA(String::class.java))) }.thenReturn("hamcrest-match-expected")
+        whenever { stubbedSubject1.doAThingWithArg("explicit-match") }.thenReturn("explicit-match-expected")
 
         assertThat(stubbedSubject1.doAThingWithArg("hamcrest-match"), equalTo("hamcrest-match-expected"))
         assertThat(stubbedSubject1.doAThingWithArg("explicit-match"), equalTo("explicit-match-expected"))

@@ -32,14 +32,14 @@ class Mocklin {
         }
 
         inline fun <reified T : Any> dummy(): T {
-           return Proxy.newProxyInstance(T::class.java.classLoader, arrayOf(T::class.java), {_,method,_ ->
-               throw DummyInteractionException(method.name)
-           }) as T
+            return Proxy.newProxyInstance(T::class.java.classLoader, arrayOf(T::class.java), { _, method, _ ->
+                throw DummyInteractionException(method.name)
+            }) as T
         }
     }
 }
 
-class DummyInteractionException(methodName: String): RuntimeException("Interaction with method: $methodName. Use a stub instead")
+class DummyInteractionException(methodName: String) : RuntimeException("Interaction with method: $methodName. Use a stub instead")
 
 class OngoingStubbing {
 

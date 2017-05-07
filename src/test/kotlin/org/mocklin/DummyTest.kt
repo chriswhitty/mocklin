@@ -12,7 +12,7 @@ class DummyTest {
 
     @Test
     fun shouldErrorWhenUsed() {
-        val testFunction = {subject: TestSubject -> subject.doAThing()}
+        val testFunction = { subject: TestSubject -> subject.doAThing() }
 
         try {
             testFunction(dummy())

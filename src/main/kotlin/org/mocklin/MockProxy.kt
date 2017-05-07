@@ -7,31 +7,31 @@ import java.lang.reflect.Method
 
 typealias ProxyCall = Pair<Method, List<Any?>?>
 
-class UnexpectedVerificationException(proxyCall: ProxyCall):
+class UnexpectedVerificationException(proxyCall: ProxyCall) :
         RuntimeException("Unexpected mock interaction, method: ${proxyCall.first.name} args: ${proxyCall.second}")
 
-class MockProxy: InvocationHandler {
+class MockProxy : InvocationHandler {
 
     private val expectations = mutableListOf<Expectation>()
 
     override fun invoke(proxy: Any, method: Method, args: Array<out Any?>?): Any? {
-        if(method.name == "toString") {
+        if (method.name == "toString") {
             return "Mock for ${method.declaringClass}"
         }
 
         val request = ProxyCall(method, args?.toList())
 
         Mocklin.lastMockInteraction = this
-        if(Mocklin.recordingExpectations) {
+        if (Mocklin.recordingExpectations) {
             expectations.add(Expectation(request))
             return null
         }
 
-        if(!hasExpectectation(request)) {
+        if (!hasExpectectation(request)) {
             throw UnexpectedVerificationException(request)
         }
 
-        val expectation =  getMatchingExpectation(request).last()
+        val expectation = getMatchingExpectation(request).last()
         return expectation.response
     }
 

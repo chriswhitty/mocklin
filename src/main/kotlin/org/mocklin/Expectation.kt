@@ -16,7 +16,7 @@ class Expectation(val expected: ProxyCall) {
             return false
         }
 
-        if (matchers.isEmpty()){
+        if (matchers.isEmpty()) {
             return expectedArguments == actualArguments
         }
 
