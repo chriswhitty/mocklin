@@ -10,7 +10,7 @@ import org.mocklin.Mocklin.Companion.stub
 import org.mocklin.Mocklin.Companion.whenever
 
 
-interface TestSubject{
+interface TestSubject {
     fun doAThing(): String
     fun doAThingWithArg(arg: String): String
 }
